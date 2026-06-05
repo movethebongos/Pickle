@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import AppShell, { GlassPanel } from './AppShell.tsx';
+import { GlassPanel } from './AppShell.tsx';
 import GlassButton from './GlassButton.tsx';
 import PaypalIcon from '../assets/paypal-mark-color.svg';
 
