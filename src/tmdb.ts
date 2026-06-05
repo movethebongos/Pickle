@@ -43,6 +43,7 @@ export type TmdbGenreOption = {
   type: 'Movies' | 'Series';
 };
 
+const TMDB_TOKEN = ''
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w780';
 const TMDB_LOGO_BASE = 'https://image.tmdb.org/t/p/w92';
