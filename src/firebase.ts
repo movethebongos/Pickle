@@ -4,7 +4,7 @@ import type { User } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDNqMrh9bKhALKyHXwMobTnjUgjY9jL9aQ',
+  apiKey: '',
   authDomain: 'pickle-2f9bc.firebaseapp.com',
   projectId: 'pickle-2f9bc',
   storageBucket: 'pickle-2f9bc.firebasestorage.app',
