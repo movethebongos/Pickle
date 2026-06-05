@@ -3,7 +3,14 @@ import { getAuth, signInAnonymously } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-const firebaseConfig = {  
+const firebaseConfig = {
+  apiKey: 'apiKey',
+  authDomain: 'pickle-2f9bc.firebaseapp.com',
+  projectId: 'pickle-2f9bc',
+  storageBucket: 'pickle-2f9bc.firebasestorage.app',
+  messagingSenderId: '882374882325',
+  appId: '1:882374882325:web:b685fc2a0994bf6fa8a1c',
+  measurementId: 'G-R6T3WR67VY',
 };
 
 const app = initializeApp(firebaseConfig);
