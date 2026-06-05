@@ -23,7 +23,7 @@ export default function AboutPage() {
 
   return (
     <div className="relative p-6">
-      <GlassButton block accent onClick={() => setIsOpen(true)}>
+      <GlassButton compact onClick={() => setIsOpen(true)}>
         About
       </GlassButton>
 
