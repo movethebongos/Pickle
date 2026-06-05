@@ -8,5 +8,5 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-  safelist: ['backdrop-blur', 'backdrop-blur-md'],
+  safelist: ['backdrop-blur', 'backdrop-filter', 'backdrop-blur-md'],
 };
