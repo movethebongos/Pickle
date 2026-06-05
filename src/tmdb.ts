@@ -43,7 +43,6 @@ export type TmdbGenreOption = {
   type: 'Movies' | 'Series';
 };
 
-const TMDB_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZGNiMTllMmY4OTY3YWJhZTYyNzJiMTIzOTJkZDY0YiIsIm5iZiI6MTc1OTkzMzY4Mi42MzM5OTk4LCJzdWIiOiI2OGU2NzRmMmExMzJjOWUxZjA3OTUxZGMiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.4LT2VK6fWHY3NmTxxiOfamWZF5xOduKdDIRV1x92N7c'
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w780';
 const TMDB_LOGO_BASE = 'https://image.tmdb.org/t/p/w92';
