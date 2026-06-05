@@ -49,7 +49,7 @@ export default function AboutPage() {
                         <h4 className="text-xl font-semibold">Credits</h4>
                         <p>Match sound effect: <strong>“Congrats! 2”</strong> by <em>nomiqbomi</em> — <a href="https://freesound.org/s/578572/" target="_blank" rel="noopener noreferrer">https://freesound.org/s/578572/</a> — License: Creative Commons 0.</p>
                         <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
-                        <p className="text-sm font-medium text-[var(--pickle-text-muted)]"> &copy; 2025-{new Date().getFullYear()} Samson Nadier Wiklund. All rights reserved.</p>
+                        <p className="text-sm font-medium text-[var(--pickle-text-muted)]"> &copy; 2025-{new Date().getFullYear()} Samson Nadier Wiklund. All rights reserved. <a href="https://www.samsonwiklund.se" target="_blank" rel="noopener noreferrer">SamsonWiklund.se</a></p>
                     </div>
                     <div className="mt-6 flex justify-end snugasapug hangright">
                         <GlassButton compact onClick={() => setIsOpen(false)}>
