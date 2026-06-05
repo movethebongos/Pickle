@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import "./styles/glass.css";
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}
+
+body {
+  margin: 0;
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(0);
+  --tw-backdrop-blur: blur(var(0));
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none; 
+}
+
+.pickleLogo {
+  display: inline-block;
+  margin-right: 12px;
+  margin-bottom: 10px;
+}
+
+.pickleLogo2 {
+  display: inline-block;
+  margin-left: 12px;
+  margin-bottom: 10px;
+}
