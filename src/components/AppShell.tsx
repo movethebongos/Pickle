@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import DarkModeToggle from './DarkModeToggle.tsx';
-
+import AboutPage from './AboutPage.tsx';
 function DottedGrid() {
   return (
     <svg className="pickle-app__grid" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -41,6 +41,7 @@ export default function AppShell({ children, narrow = false }: { children: React
       <DottedGrid />
       <div className="pickle-app__toolbar">
         <DarkModeToggle />
+        <AboutPage />
       </div>
       <main className={`pickle-app__content ${narrow ? 'max-w-xl' : ''}`}>{children}</main>
     </div>

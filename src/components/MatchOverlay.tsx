@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ProviderInfo } from '../tmdb.ts';
 import confetti from 'canvas-confetti/dist/confetti.module.mjs';
 import { GlassPanel } from './AppShell.tsx';
+import GlassButton from './GlassButton.tsx';
 import sound from '../assets/578572__nomiqbomi__congrats-2.mp3';
 
 export type MatchDetails = {
@@ -211,6 +212,11 @@ export default function MatchOverlay({ movie }: MatchOverlayProps) {
                 </div>
               </div>
             </div>
+              <div className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[12rem]">
+                <GlassButton compact onClick={() => window.location.reload()}>
+                  Start over
+                </GlassButton>
+              </div>
           </div>
         </GlassPanel>
       </div>

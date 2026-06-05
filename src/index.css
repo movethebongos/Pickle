@@ -10,6 +10,18 @@ body {
   margin: 0;
 }
 
+.snugasapug {
+  width:fit-content;
+}
+
+.hangright {
+  float: right;
+}
+
+.paypalmr {
+  margin-right: calc(var(--spacing) * 2);
+}
+
 .backdrop-blur-sm {
   backdrop-filter: blur(0);
   --tw-backdrop-blur: blur(var(0));
