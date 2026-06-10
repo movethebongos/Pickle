@@ -22,7 +22,7 @@ export default function AboutPage() {
   }, [isOpen]);
 
   return (
-    <div className="relative p-6">
+    <div className="relative pb6">
       <GlassButton compact onClick={() => setIsOpen(true)}>
         About
       </GlassButton>

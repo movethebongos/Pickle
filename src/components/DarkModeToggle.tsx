@@ -1,24 +1,19 @@
 import { useTheme } from '../ThemeProvider.tsx';
+import GlassButton from './GlassButton.tsx';
+
 
 export default function DarkModeToggle() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
   return (
-    <button
-      type="button"
-      className="theme-switch"
-      role="switch"
-      aria-checked={isDark}
-      onClick={toggleTheme}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-    >
-      <span className="theme-switch__track">
-        <span className="theme-switch__label">{isDark ? 'Dark' : 'Light'}</span>
-        <span className="theme-switch__thumb" aria-hidden="true">
-          {isDark ? '☀' : '☾'}
-        </span>
-      </span>
-    </button>
+        <div className="relative pb6">
+          <GlassButton compact onClick={toggleTheme} className="stb-button" role="switch"
+            aria-checked={isDark}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
+            {isDark ? '☾ Dark' : '☀ Light'}
+          </GlassButton>
+        </div>
+    
   );
 }

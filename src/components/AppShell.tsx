@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import DarkModeToggle from './DarkModeToggle.tsx';
-import AboutPage from './AboutPage.tsx';
+import Menu from './Menu.tsx';
+
 function DottedGrid() {
   return (
     <svg className="pickle-app__grid" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -35,13 +35,16 @@ function DottedGrid() {
   );
 }
 
-export default function AppShell({ children, narrow = false }: { children: ReactNode; narrow?: boolean }) {
+export default function AppShell({ children, narrow = false, isHost = false }: { 
+  children: ReactNode; 
+  narrow?: boolean;
+  isHost?: boolean;
+}) {
   return (
     <div className="pickle-app">
       <DottedGrid />
       <div className="pickle-app__toolbar">
-        <DarkModeToggle />
-        <AboutPage />
+        <Menu isHost={isHost} />        
       </div>
       <main className={`pickle-app__content ${narrow ? 'max-w-xl' : ''}`}>{children}</main>
     </div>
@@ -55,3 +58,5 @@ export function GlassPanel({ children, className = '' }: { children: ReactNode; 
     </section>
   );
 }
+
+

@@ -157,7 +157,6 @@ export default function SettingsScreen({ code, name, isHost, onBack, onStartPick
       current.includes(type) ? current.filter((item) => item !== type) : [...current, type],
     );
   };
-
   const startPickling = async () => {
     setError('');
     setStarting(true);

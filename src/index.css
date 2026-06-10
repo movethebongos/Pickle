@@ -22,6 +22,10 @@ body {
   margin-right: calc(var(--spacing) * 2);
 }
 
+.pb6 {
+  padding-bottom: calc(var(--spacing) * 6);
+}
+
 .backdrop-blur-sm {
   backdrop-filter: blur(0);
   --tw-backdrop-blur: blur(var(0));
