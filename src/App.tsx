@@ -13,6 +13,7 @@ type RoomState = {
 export default function App() {
   const [room, setRoom] = useState<RoomState | null>(null);
   const [phase, setPhase] = useState<'entry' | 'settings' | 'swipe'>('entry');
+  const [activeUsersCount, setActiveUsersCount] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
 
   // 1. Initial authentication and deep-linking check
@@ -47,12 +48,10 @@ export default function App() {
     const roomRef = doc(db, 'rooms', room.code);
     const userId = auth.currentUser.uid;
 
-    // Add user to the room's active tracking array
     updateDoc(roomRef, {
       activeUsers: arrayUnion(userId)
     }).catch(err => console.error("Error adding user to activeUsers:", err));
 
-    // Cleanup: Remove user when leaving the room or closing the app
     return () => {
       updateDoc(roomRef, {
         activeUsers: arrayRemove(userId)
@@ -60,7 +59,7 @@ export default function App() {
     };
   }, [room]);
 
-  // 3. Stable Data Listener (Stays open regardless of current phase UI)
+  // 3. Stable Data Listener (Updates phase and live user count)
   useEffect(() => {
     if (!room) return;
 
@@ -70,7 +69,11 @@ export default function App() {
 
       const data = snapshot.data();
       
-      // Update phase seamlessly if the room status changes elsewhere
+      // Update the active users count from the Firestore array length
+      if (data?.activeUsers && Array.isArray(data.activeUsers)) {
+        setActiveUsersCount(data.activeUsers.length);
+      }
+      
       if ((data?.status === 'active' || data?.status === 'matched') && phase !== 'swipe') {
         setPhase('swipe');
       }
@@ -79,11 +82,12 @@ export default function App() {
     });
 
     return unsubscribe;
-  }, [room]); // Decoupled from 'phase' to stop unneccesary teardowns
+  }, [room, phase]);
 
   const reset = () => {
     setRoom(null);
     setPhase('entry');
+    setActiveUsersCount(1);
   };
 
   if (!room) {
@@ -103,6 +107,7 @@ export default function App() {
       <SwipeScreen
         code={room.code}
         isHost={room.isHost}
+        activeUsers={activeUsersCount}
         onBack={reset}
         onEditSettings={() => setPhase('settings')}
       />
@@ -113,6 +118,7 @@ export default function App() {
     <SettingsScreen
       code={room.code}
       isHost={room.isHost}
+      activeUsers={activeUsersCount}
       onBack={reset}
       onStartPickling={() => setPhase('swipe')}
     />
