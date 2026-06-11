@@ -30,9 +30,14 @@ export default function AboutPage() {
     <div ref={modalRef} className="menu-popup">
         <GlassPanel>
             <div className="p-4 space-y-4">
+               <div className="relative snugasapug hangright">
+                  <GlassButton onClick={() => setIsOpen(false)}>
+                      ✕
+                  </GlassButton>
+                </div>
                 <div>
-                    <h3 className="font-bold">About</h3>
-                    <p className="text-sm opacity-70">Version 1.0.0</p>
+                    <h3 className="font-bold">Pickle</h3>
+                    <p className="text-sm opacity-70">Version 1.35</p>
                 </div>
                 <p className="text-sm">
                     Pickle is free, non-tracking and ad-free. If you’d like to support it, donations are appreciated ❤️
@@ -43,11 +48,20 @@ export default function AboutPage() {
                         PayPal (sorry)
                     </GlassButton>
                 </div>
-                <div className="relative">
-                <GlassButton onClick={() => setIsOpen(false)}>
-                    Close
-                </GlassButton>
-                </div>
+                <h4 className="font-semibold">Credits</h4>
+                <p className="text-sm">
+                  Uses the TMDb API but is not endorsed or certified by <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDb</a>.
+                </p>
+                <p className="text-sm">
+                    Glass theme inspired by Apple’s design language and created using "Glass Button" by Petr Knoll <a href="https://codepen.io/Petr-Knoll/pen/QwWLZdx" target="_blank" rel="noopener noreferrer">https://codepen.io/Petr-Knoll/pen/QwWLZdx</a> as a reference point.
+                </p>
+                <p className="text-sm">
+                    Pickle sound effect: <strong>“Congrats! 2”</strong> by <em>nomiqbomi</em> — <a href="https://freesound.org/s/578572/" target="_blank" rel="noopener noreferrer">https://freesound.org/s/578572/</a> — License: Creative Commons 0.
+                </p>
+                <p className="text-sm">
+                   &copy; 2025-{(new Date().getFullYear())} Samson Nadier Wiklund. All rights reserved.
+                </p>
+               
             </div>
         </GlassPanel>
     </div>
