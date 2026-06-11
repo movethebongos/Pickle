@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { arrayUnion, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { db, ensureAuth } from '../firebase.ts';
 import AppShell, { GlassPanel } from './AppShell.tsx';
@@ -14,23 +14,24 @@ function randomRoomCode(): string {
 }
 
 interface EntryScreenProps {
-  onStartRoom: (roomCode: string, name: string, isHost: boolean) => void;
+  error?: string | null;
+  onStartRoom: (roomCode: string, isHost: boolean) => void;
 }
 
-export default function EntryScreen({ onStartRoom }: EntryScreenProps) {
-  const [name, setName] = useState('');
+export default function EntryScreen({ error: errorFromProps, onStartRoom }: EntryScreenProps) {
   const [shortcode, setShortcode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [joinLoading, setJoinLoading] = useState(false);
 
+  useEffect(() => {
+    if (errorFromProps) {
+      setError(errorFromProps);
+    }
+  }, [errorFromProps]);
+
   const createRoom = async () => {
     setError('');
-    if (!name.trim()) {
-      setError('Please enter your name before starting a room.');
-      return;
-    }
-
     setLoading(true);
     try {
       const user = await ensureAuth();
@@ -42,14 +43,13 @@ export default function EntryScreen({ onStartRoom }: EntryScreenProps) {
         if (!roomSnapshot.exists()) {
           await setDoc(roomRef, {
             code,
-            hostName: name.trim(),
             isHost: true,
             createdAt: serverTimestamp(),
             active: true,
             status: 'pending',
             activeUsers: [user.uid],
           });
-          onStartRoom(code, name.trim(), true);
+          onStartRoom(code, true);
           return;
         }
         code = randomRoomCode();
@@ -68,13 +68,8 @@ export default function EntryScreen({ onStartRoom }: EntryScreenProps) {
 
   const joinRoom = async () => {
     setError('');
-    const trimmedName = name.trim();
     const trimmedCode = shortcode.trim().toUpperCase();
 
-    if (!trimmedName) {
-      setError('Your name is required to join a room.');
-      return;
-    }
     if (!trimmedCode) {
       setError('Please enter a room shortcode to join.');
       return;
@@ -94,7 +89,7 @@ export default function EntryScreen({ onStartRoom }: EntryScreenProps) {
         activeUsers: arrayUnion(user.uid),
       });
 
-      onStartRoom(trimmedCode, trimmedName, false);
+      onStartRoom(trimmedCode, false);
     } catch (err) {
       console.error('Join room failed', err);
       const message = err instanceof Error ? err.message : String(err);
@@ -119,16 +114,6 @@ export default function EntryScreen({ onStartRoom }: EntryScreenProps) {
 
         <GlassPanel>
           <div className="grid gap-5">
-            <label className="grid gap-2 text-left">
-              <span className="text-sm font-medium text-[var(--pickle-text-muted)]">Your name</span>
-              <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Enter your name"
-                className="glass-input"
-              />
-            </label>
-
             <GlassButton block accent disabled={loading} onClick={createRoom}>
               {loading ? 'Creating room…' : 'Start Room'}
             </GlassButton>

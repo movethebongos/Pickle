@@ -35,16 +35,17 @@ function DottedGrid() {
   );
 }
 
-export default function AppShell({ children, narrow = false, isHost = false }: { 
+export default function AppShell({ children, narrow = false, isHost = false, screen }: { 
   children: ReactNode; 
   narrow?: boolean;
   isHost?: boolean;
+  screen?: 'settings' | 'swipe';
 }) {
   return (
     <div className="pickle-app">
       <DottedGrid />
       <div className="pickle-app__toolbar">
-        <Menu isHost={isHost} />        
+        <Menu isHost={isHost} screen={screen} />        
       </div>
       <main className={`pickle-app__content ${narrow ? 'max-w-xl' : ''}`}>{children}</main>
     </div>
@@ -58,5 +59,3 @@ export function GlassPanel({ children, className = '' }: { children: ReactNode; 
     </section>
   );
 }
-
-

@@ -5,18 +5,19 @@ import { persistRoomSettings, resolveRoomSettings, type ContentType } from '../r
 import { fetchTmdbCountries, fetchTmdbProvidersForRegion, fetchTmdbGenresForRegion, type TmdbProviderOption, type TmdbLocaleOption, type TmdbGenreOption } from '../tmdb.ts';
 import AppShell, { GlassPanel } from './AppShell.tsx';
 import GlassButton from './GlassButton.tsx';
+import ShareButton from './ShareButton.tsx';
 
 interface SettingsScreenProps {
   code: string;
-  name: string;
   isHost: boolean;
+  activeUsers: number;
   onBack: () => void;
   onStartPickling: () => void;
 }
 
 const initialLocaleOptions: TmdbLocaleOption[] = [{ code: 'US', name: 'United States' }];
 
-export default function SettingsScreen({ code, name, isHost, onBack, onStartPickling }: SettingsScreenProps) {
+export default function SettingsScreen({ code, isHost, activeUsers, onBack, onStartPickling }: SettingsScreenProps) {
   const savedSettings = useMemo(() => (isHost ? resolveRoomSettings() : null), [isHost]);
 
   const [locale, setLocale] = useState(savedSettings?.locale ?? 'US');
@@ -192,7 +193,7 @@ export default function SettingsScreen({ code, name, isHost, onBack, onStartPick
   };
 
   return (
-    <AppShell>
+    <AppShell isHost={isHost} screen="settings">
       <div className="flex flex-col gap-8">
         <header className="space-y-4 text-center">
           <p className="pickle-eyebrow">Room settings</p>
@@ -214,12 +215,6 @@ export default function SettingsScreen({ code, name, isHost, onBack, onStartPick
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="glass-panel">
                   <div className="glass-panel__inner !py-4">
-                    <p className="text-sm font-medium text-[var(--pickle-text-muted)]">Your name</p>
-                    <p className="mt-2 font-medium">{name}</p>
-                  </div>
-                </div>
-                <div className="glass-panel">
-                  <div className="glass-panel__inner !py-4">
                     <p className="text-sm font-medium text-[var(--pickle-text-muted)]">Role</p>
                     <p className="mt-2 font-medium">{isHost ? 'Host' : 'Guest'}</p>
                   </div>
@@ -229,7 +224,7 @@ export default function SettingsScreen({ code, name, isHost, onBack, onStartPick
             <div className="glass-panel">
               <div className="glass-panel__inner !py-4 text-left">
                 <p className="text-sm font-medium text-[var(--pickle-text-muted)]">Current status</p>
-                <p className="mt-2 font-medium">{isHost ? 'Host can configure the room' : statusMessage}</p>
+                <p className="mt-2 font-medium">{isHost ? `Host can configure the room, ${activeUsers} ${activeUsers === 1 ? 'person' : 'people'}` : statusMessage}</p>
               </div>
             </div>
           </div>
@@ -389,9 +384,12 @@ export default function SettingsScreen({ code, name, isHost, onBack, onStartPick
           </GlassPanel>
         )}
 
-        <GlassButton compact onClick={onBack}>
-          Back to entry
-        </GlassButton>
+        <div className="flex flex-wrap gap-4 justify-center">
+          <ShareButton code={code} />
+          <GlassButton compact onClick={onBack}>
+            Leave room
+          </GlassButton>
+        </div>
       </div>
     </AppShell>
   );

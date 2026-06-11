@@ -5,6 +5,7 @@ import { db, ensureAuth } from '../firebase.ts';
 import { fetchTmdbCards, type ProviderInfo } from '../tmdb.ts';
 import AppShell, { GlassPanel } from './AppShell.tsx';
 import GlassButton from './GlassButton.tsx';
+import ShareButton from './ShareButton.tsx';
 
 type RoomSettings = {
   status?: string;
@@ -385,14 +386,14 @@ export default function SwipeScreen({ code, isHost, onBack, onEditSettings }: Sw
 
   if (isMatchedCelebration && roomSettings?.matchedMovie) {
     return (
-      <AppShell>
+      <AppShell isHost={isHost} screen="swipe">
         <MatchOverlay movie={roomSettings.matchedMovie} />
       </AppShell>
     );
   }
 
   return (
-    <AppShell>
+    <AppShell isHost={isHost} screen="swipe">
       <div className="flex flex-col gap-8">
         <GlassPanel>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between text-left">
@@ -409,6 +410,7 @@ export default function SwipeScreen({ code, isHost, onBack, onEditSettings }: Sw
                   {returningToSettings ? 'Opening settings…' : 'Edit settings'}
                 </GlassButton>
               ) : null}
+              <ShareButton code={code} />
               <GlassButton compact onClick={onBack}>
                 Leave room
               </GlassButton>
@@ -424,7 +426,7 @@ export default function SwipeScreen({ code, isHost, onBack, onEditSettings }: Sw
             </div>
             <div>
               <p className="text-sm font-medium text-[var(--pickle-text-muted)]">Room status</p>
-              <p className="mt-1 font-medium">{roomSettings?.status || 'Loading'}</p>
+              <p className="mt-1 font-medium">{roomSettings?.status || 'Loading'}{roomSettings?.activeUsers && `, ${roomSettings.activeUsers.length} ${roomSettings.activeUsers.length === 1 ? 'person' : 'people'}`}</p>
             </div>
           </div>
         </GlassPanel>

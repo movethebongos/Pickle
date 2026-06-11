@@ -1,45 +1,85 @@
 import { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import EntryScreen from './components/EntryScreen';
 import SettingsScreen from './components/SettingsScreen';
 import SwipeScreen from './components/SwipeScreen';
-import { db, ensureAuth } from './firebase.ts';
+import { db, ensureAuth, auth } from './firebase.ts';
 
 type RoomState = {
   code: string;
-  name: string;
   isHost: boolean;
 };
 
 export default function App() {
   const [room, setRoom] = useState<RoomState | null>(null);
   const [phase, setPhase] = useState<'entry' | 'settings' | 'swipe'>('entry');
+  const [error, setError] = useState<string | null>(null);
 
+  // 1. Initial authentication and deep-linking check
   useEffect(() => {
     ensureAuth().catch((err) => {
       console.error('Firebase auth failed', err);
     });
+
+    const codeFromUrl = window.location.pathname.slice(1);
+    if (codeFromUrl) {
+      const roomRef = doc(db, 'rooms', codeFromUrl);
+      getDoc(roomRef).then((docSnap) => {
+        if (docSnap.exists()) {
+          setRoom({ code: codeFromUrl, isHost: false });
+          const data = docSnap.data();
+          if (data?.status === 'active' || data?.status === 'matched') {
+            setPhase('swipe');
+          } else {
+            setPhase('settings');
+          }
+        } else {
+          setError(`Room ${codeFromUrl} does not exist. Check the code and try again.`);
+        }
+      });
+    }
   }, []);
 
+  // 2. Stable Presence Management (Adds/removes user from the active list)
   useEffect(() => {
-    if (!room) {
-      return;
-    }
+    if (!room || !auth.currentUser) return;
+
+    const roomRef = doc(db, 'rooms', room.code);
+    const userId = auth.currentUser.uid;
+
+    // Add user to the room's active tracking array
+    updateDoc(roomRef, {
+      activeUsers: arrayUnion(userId)
+    }).catch(err => console.error("Error adding user to activeUsers:", err));
+
+    // Cleanup: Remove user when leaving the room or closing the app
+    return () => {
+      updateDoc(roomRef, {
+        activeUsers: arrayRemove(userId)
+      }).catch(err => console.error("Error removing user from activeUsers:", err));
+    };
+  }, [room]);
+
+  // 3. Stable Data Listener (Stays open regardless of current phase UI)
+  useEffect(() => {
+    if (!room) return;
 
     const roomRef = doc(db, 'rooms', room.code);
     const unsubscribe = onSnapshot(roomRef, (snapshot) => {
-      if (!snapshot.exists()) {
-        return;
-      }
+      if (!snapshot.exists()) return;
 
       const data = snapshot.data();
+      
+      // Update phase seamlessly if the room status changes elsewhere
       if ((data?.status === 'active' || data?.status === 'matched') && phase !== 'swipe') {
         setPhase('swipe');
       }
+    }, (err) => {
+      console.error("Room listener error:", err);
     });
 
     return unsubscribe;
-  }, [room, phase]);
+  }, [room]); // Decoupled from 'phase' to stop unneccesary teardowns
 
   const reset = () => {
     setRoom(null);
@@ -47,10 +87,15 @@ export default function App() {
   };
 
   if (!room) {
-    return <EntryScreen onStartRoom={(code, name, isHost) => {
-      setRoom({ code, name, isHost });
-      setPhase('settings');
-    }} />;
+    return (
+      <EntryScreen 
+        error={error} 
+        onStartRoom={(code, isHost) => {
+          setRoom({ code, isHost });
+          setPhase('settings');
+        }} 
+      />
+    );
   }
 
   if (phase === 'swipe') {
@@ -67,7 +112,6 @@ export default function App() {
   return (
     <SettingsScreen
       code={room.code}
-      name={room.name}
       isHost={room.isHost}
       onBack={reset}
       onStartPickling={() => setPhase('swipe')}
