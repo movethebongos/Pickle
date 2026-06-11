@@ -5,7 +5,7 @@
 Pickle is a real-time, collaborative web app that helps groups of friends decide what to watch. No more endless scrolling or debates—just create a room, invite your friends, and start swiping. When everyone swipes right on the same movie, you've found your match!
 
 Try it out at:
-https://pickle-cyan.vercel.app/
+https://pickle.gay
 
 ## How It Works
 
