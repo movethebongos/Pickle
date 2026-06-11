@@ -107,7 +107,6 @@ export default function App() {
       <SwipeScreen
         code={room.code}
         isHost={room.isHost}
-        activeUsers={activeUsersCount}
         onBack={reset}
         onEditSettings={() => setPhase('settings')}
       />
