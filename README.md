@@ -1,75 +1,79 @@
-# React + TypeScript + Vite
+# Pickle 🥒
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Find the perfect movie or show to watch with friends.**
 
-Currently, two official plugins are available:
+Pickle is a real-time, collaborative web app that helps groups of friends decide what to watch. No more endless scrolling or debates—just create a room, invite your friends, and start swiping. When everyone swipes right on the same movie, you've found your match!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Try it out at:
+https://pickle-cyan.vercel.app/
 
-## React Compiler
+## How It Works
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+1.  **Create a Room**: Start a new session and get a unique room code.
+2.  **Invite Friends**: Share the room URL (`pickle.app/ROOMCODE`) with friends. They can join instantly from any browser.
+3.  **Set Preferences**: As the host, choose your group's streaming services (Netflix, Disney+, Prime Video, etc.) and preferred genres.
+4.  **Swipe Together**: Everyone in the room is presented with the same movie cards. Swipe right for "Yes," left for "No."
+5.  **Find Your Match!**: When everyone in the room swipes right on the same movie, it's a match! The app will let you know what you're watching tonight.
 
-Note: This will impact Vite dev & build performances.
+## Features
 
-## Expanding the ESLint configuration
+-   **Collaborative Swiping**: Real-time synchronization for a seamless group experience.
+-   **Smart Filtering**: Filter movies by streaming provider and genre.
+-   **Instant Room Joining**: No sign-up required. Join rooms instantly with a simple URL.
+-   **Real-time Presence**: See how many people are currently in the room.
+-   **Easy Sharing**: A built-in share button makes it simple to invite others.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+-   **Frontend**: React, TypeScript, Vite
+-   **Backend & Real-time**: Firebase (Firestore for database, Anonymous Auth for user sessions)
+-   **Movie Data**: The Movie Database (TMDB) API
+-   **Styling**: CSS Modules
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Local Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+To run this project locally, follow these steps:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repo-url>
+    cd <project-directory>
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3.  **Set up environment variables:**
+    You will need to set up both Firebase and TMDB.
+
+    -   **Firebase**:
+        1.  Create a new project at the [Firebase Console](https://console.firebase.google.com/).
+        2.  Enable **Firestore Database** and **Anonymous Authentication**.
+        3.  In your Project Settings, add a new Web App.
+        4.  Copy the Firebase configuration keys.
+
+    -   **TMDB**:
+        1.  Create an account at [The Movie Database (TMDB)](https://www.themoviedb.org/).
+        2.  Generate a new API Key in your account settings.
+
+    -   Create a file named `.env.local` in the root of your project and add your keys:
+        ```
+        # Firebase Config
+        VITE_FIREBASE_API_KEY=xxxxxxxxxxxxxxxx
+        VITE_FIREBASE_AUTH_DOMAIN=xxxxxxxxxxxxxxxx
+        VITE_FIREBASE_PROJECT_ID=xxxxxxxxxxxxxxxx
+        VITE_FIREBASE_STORAGE_BUCKET=xxxxxxxxxxxxxxxx
+        VITE_FIREBASE_MESSAGING_SENDER_ID=xxxxxxxxxxxxxxxx
+        VITE_FIREBASE_APP_ID=xxxxxxxxxxxxxxxx
+
+        # TMDB API Key
+        VITE_TMDB_API_KEY=xxxxxxxxxxxxxxxx
+        ```
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    The application should now be running on `http://localhost:5173`.
