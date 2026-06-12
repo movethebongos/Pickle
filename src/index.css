@@ -52,3 +52,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 1000;
 }
+
+.pickle-app__footer {
+  margin-top: 40px;
+}
