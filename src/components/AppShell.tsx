@@ -48,6 +48,11 @@ export default function AppShell({ children, narrow = false, isHost = false, scr
         <Menu isHost={isHost} screen={screen} />        
       </div>
       <main className={`pickle-app__content ${narrow ? 'max-w-xl' : ''}`}>{children}</main>
+      <div className="pickle-app__footer flex flex-col gap-8 items-center">
+        <p className="text-xs opacity-50">
+          &copy; 2025-{new Date().getFullYear()} <a href="https://samsonwiklund.se" target="_blank" rel="noopener noreferrer">Samson Nadier Wiklund</a>. All rights reserved.
+        </p>
+      </div>
     </div>
   );
 }
